@@ -1,7 +1,10 @@
 <template>
   <div class="container mx-auto w-screen h-screen">
-    <div class="title text-center text-5xl font-light">
+    <div @click="showData = !showData" class="cursor-pointer title text-center text-5xl font-light">
       Pandemic Map
+    </div>
+    <div v-if="showData">
+      {{  $store.getters['states/states'] }}
     </div>
     <PandemicMap></PandemicMap>
   </div>
@@ -10,11 +13,15 @@
 <script lang="ts">
 import Vue from 'vue'
 import PandemicMap from '~/components/PandemicMap.vue'
-import 'leaflet/dist/leaflet.css'
 
 export default Vue.extend({
   components: {
     PandemicMap
+  },
+  data() {
+    return {
+      showData: false
+    }
   }
 })
 </script>
