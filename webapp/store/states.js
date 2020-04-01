@@ -1,4 +1,4 @@
-import states from '~/static/data/states.json';
+import states from '~/static/data/states.json'
 
 const state = () => ({
   states
@@ -6,7 +6,7 @@ const state = () => ({
 
 const getters = {
   states: (state) => {
-    return state.states;
+    return state.states
   }
 }
 
