@@ -1,10 +1,13 @@
 <template>
   <div class="container mx-auto w-screen h-screen">
-    <div @click="showData = !showData" class="cursor-pointer title text-center text-5xl font-light">
+    <div
+      class="cursor-pointer title text-center text-5xl font-light"
+      @click="showData = !showData"
+    >
       Pandemic Map
     </div>
     <div v-if="showData">
-      {{  $store.getters['states/states'] }}
+      {{ $store.getters['states/states'] }}
     </div>
     <PandemicMap></PandemicMap>
   </div>
