@@ -1,27 +1,27 @@
 steps:
     # Install webapp
-    - name: 'gcr.io/cloud-builders/npm'
+    - name: 'gcr.io/cloud-builders/npm:node-10'
       id: 'webapp install'
       args: ['install']
       dir: 'webapp'
       waitFor: ['-']
   
     # Lint webapp
-    - name: 'gcr.io/cloud-builders/npm'
+    - name: 'gcr.io/cloud-builders/npm:node-10'
       id: 'webapp lint'
       args: ['run', 'lint']
       dir: 'webapp'
       waitFor: ['webapp install']
   
     # Generate static data
-    - name: 'gcr.io/cloud-builders/npm'
+    - name: 'gcr.io/cloud-builders/npm:node-10'
       id: 'webapp generate:data'
       args: ['run', 'generate:data']
       dir: 'webapp'
       waitFor: ['webapp install']
 
     # Generate static webapp
-    - name: 'gcr.io/cloud-builders/npm'
+    - name: 'gcr.io/cloud-builders/npm:node-10'
       id: 'webapp generate'
       args: ['run', 'generate']
       dir: 'webapp'
