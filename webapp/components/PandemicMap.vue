@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { LMap, LTileLayer } from 'vue2-leaflet'
 
 @Component<PandemicMap>({
