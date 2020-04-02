@@ -1,0 +1,21 @@
+steps:
+    # Install webapp
+    - name: 'gcr.io/cloud-builders/npm:node-10.10.0'
+      id: 'webapp install'
+      args: ['install']
+      dir: 'webapp'
+      waitFor: ['-']
+  
+    # Lint webapp
+    - name: 'gcr.io/cloud-builders/npm:node-10.10.0'
+      id: 'webapp lint'
+      args: ['run', 'lint']
+      dir: 'webapp'
+      waitFor: ['webapp install']
+  
+    # Build webapp
+    - name: 'gcr.io/cloud-builders/npm:node-10.10.0'
+      id: 'webapp build'
+      args: ['run', 'build']
+      dir: 'webapp'
+      waitFor: ['webapp install']

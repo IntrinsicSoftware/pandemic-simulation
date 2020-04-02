@@ -1,8 +1,10 @@
 <template>
   <section class="bg-blue w-full h-full">
-    <l-map :zoom="4" :center="[38.266219, -99.026642]" class="w-full h-full">
+    <l-map :zoom="5" :center="[38.266219, -99.026642]" class="w-full h-full">
       <!-- Map layer -->
-      <l-tile-layer url="//{s}.tile.osm.org/{z}/{x}/{y}.png" />
+      <l-tile-layer
+        url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+      />
     </l-map>
   </section>
 </template>
