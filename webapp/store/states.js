@@ -1,13 +1,27 @@
 import states from '~/static/data/states.json'
+import geoJson from '~/static/data/stateGeoJson.json'
 
 const state = () => ({
-  states
+  geoJson
 })
 
-const getters = {
-  states: (state) => {
-    return state.states
+const actions = {
+  setDensityByProp({ commit }, property) {
+    // todo
+    console.log('setDensityByProp: ', property)
   }
 }
 
-export { state, getters }
+const getters = {
+  geoJson: (state) => {
+    return state.geoJson
+  }
+}
+
+const mutations = {
+  SET(state, geoJson) {
+    state.geoJson = geoJson
+  }
+}
+
+export { actions, getters, mutations, state }
