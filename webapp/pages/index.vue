@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto w-screen h-screen">
+  <div class="w-screen h-screen text-white">
     <div
       class="cursor-pointer title text-center text-5xl font-light"
       @click="showData = !showData"
@@ -29,9 +29,11 @@ export default Vue.extend({
 })
 </script>
 <style>
+body {
+  background: #222222;
+}
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  color: #35495e;
 }
 </style>
