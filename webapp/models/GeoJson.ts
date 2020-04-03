@@ -1,9 +1,5 @@
 class Properties {
-  test: string
-
-  constructor(test: string) {
-    this.test = test
-  }
+  public density: number = 0
 }
 
 class Geometry {

@@ -1,14 +1,18 @@
 <template>
   <div class="w-screen h-screen text-white">
-    <div class="flex justify-center fixed top-0 z-10 w-full m-2">
-      <div class="relative w-1/5">
+    <div class="dropdown flex justify-center z-10 m-2 w-1/5">
+      <div class="relative w-full">
         <select
           class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           @change="loadOption"
         >
-          <option v-for="(option, index) in options" :key="index">{{
-            option
-          }}</option>
+          <option
+            v-for="(option, index) in options"
+            :key="index"
+            :name="option.label"
+            :value="option.value"
+            >{{ option.label }}</option
+          >
         </select>
         <div
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -36,16 +40,31 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import PandemicMap from '~/components/PandemicMap.vue'
 
+interface PandemicOption {
+  value: string
+  label: string
+}
+
 @Component<HomePage>({
   components: {
     PandemicMap
   }
 })
 export default class HomePage extends Vue {
-  private options: string[] = ['death', 'grade']
+  private options: PandemicOption[] = [
+    { value: 'death', label: 'Deaths' },
+    { value: 'positive', label: 'Positive Test Results' },
+    { value: 'negative', label: 'Negative Test Results' },
+    { value: 'hospitalized', label: 'Hospitalized' },
+    { value: 'totalTestResults', label: 'Total Test Results' }
+  ]
 
   private loadOption(property: any) {
     this.$store.dispatch('states/setDensityByProp', property.target.value)
+  }
+
+  mounted() {
+    this.$store.dispatch('states/setDensityByProp', this.options[0].value)
   }
 }
 </script>
@@ -56,5 +75,11 @@ body {
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+.dropdown {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>
