@@ -3,7 +3,8 @@
     <l-map :zoom="5" :center="[38.266219, -99.026642]" class="w-full h-full">
       <!-- Map layer -->
       <l-tile-layer
-        url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+        url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
+        attribution="Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
       />
       <l-geo-json :geojson="geojson" :options="options" />
     </l-map>
@@ -13,7 +14,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { LMap, LGeoJson, LTileLayer } from 'vue2-leaflet'
-import { icon } from 'leaflet'
 import { GeoJson } from '../models/GeoJson'
 
 @Component<PandemicMap>({
@@ -30,42 +30,40 @@ export default class PandemicMap extends Vue {
     onEachFeature: this.onEachFeatureFunction
   }
 
-  // private options: any = {
-  //   onEachFeature() {
-  //     console.log('on each featuer')
-  //   }
-  // }
-
   private onEachFeatureFunction(feature: any, layer: any) {
-    console.log('feature: ', feature)
-    console.log('layer: ', layer)
-    // ICON
-
-    // const testIcon = icon({
-    //   iconUrl: '/img/su-27-blue.svg',
-    //   iconSize: [20, 33],
-    //   iconAnchor: [10, 16]
-    // })
-
-    // layer.setIcon(testIcon)
-
     layer.setStyle({
       color: this.getColor(feature.properties.density)
     })
-
-    // Marker click handler
     layer.on({
       click: () => {
-        return this.entityClickHandler(layer)
+        return this.entityClickHandler()
+      },
+      mouseover: () => {
+        return this.entityMouseoverHandler(layer)
+      },
+      mouseout: () => {
+        return this.entityMouseoutHandler(layer, feature)
       }
     })
   }
 
-  private entityClickHandler(layer: any) {
-    console.log('clicked iotem', layer)
+  private entityClickHandler() {
+    // console.log('clicked layer', layer)
   }
 
-  private getColor(d) {
+  private entityMouseoverHandler(layer: any) {
+    layer.setStyle({
+      color: '#ffff00'
+    })
+  }
+
+  private entityMouseoutHandler(layer: any, feature: any) {
+    layer.setStyle({
+      color: this.getColor(feature.properties.density)
+    })
+  }
+
+  private getColor(d: number) {
     return d > 1000
       ? '#800026'
       : d > 500

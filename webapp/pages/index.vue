@@ -44,7 +44,7 @@ import PandemicMap from '~/components/PandemicMap.vue'
 export default class HomePage extends Vue {
   private options: string[] = ['death', 'grade']
 
-  private loadOption(property) {
+  private loadOption(property: any) {
     this.$store.dispatch('states/setDensityByProp', property.target.value)
   }
 }
