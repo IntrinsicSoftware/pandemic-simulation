@@ -1,4 +1,4 @@
-import states from '~/static/data/states.json'
+// import states from '~/static/data/states.json'
 import geoJson from '~/static/data/stateGeoJson.json'
 
 const state = () => ({
@@ -6,10 +6,11 @@ const state = () => ({
 })
 
 const actions = {
-  setDensityByProp({ commit }, property) {
-    // todo
-    console.log('setDensityByProp: ', property)
-  }
+  // setDensityByProp({ commit }, property) {
+  //   // todo
+  //   // console.log('setDensityByProp: ', property)
+  //   // find the max value of all items first. then you can set everything from 0-100, two loops
+  // }
 }
 
 const getters = {
