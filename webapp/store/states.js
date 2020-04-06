@@ -27,16 +27,19 @@ const actions = {
     // Get the ratio for calculating density between 0 - 1000
     const ratio = 1000 / highestState.properties[property]
     // Update density based on ratio for each state
-    geoJson.features.forEach((feature, index) => {
-      if (feature.properties[property]) {
-        const density = ratio * feature.properties[property]
-        const newFeature = { ...feature }
-        newFeature.properties = { ...feature.properties }
-        newFeature.properties.density = density
-        commit('SET_FEATURE', { index, newFeature })
+    const features = geoJson.features.reduce((acc, feature) => {
+      const propertyValue = feature.properties[property]
+      const newFeature = { ...feature }
+      let density = 0
+      if (propertyValue) {
+        density = ratio * propertyValue
       }
-    })
-    // Mutate high low and selected property
+      newFeature.properties = { ...feature.properties }
+      newFeature.properties.density = density
+      acc.push(newFeature)
+      return acc
+    }, [])
+    commit('SET_FEATURES', features)
     commit('SET_PROPERTY', property)
     commit('SET_HIGH_VALUE', highestState)
     commit('SET_LOW_VALUE', lowestState)
@@ -62,6 +65,9 @@ const getters = {
 }
 
 const mutations = {
+  SET_FEATURES(state, features) {
+    state.geoJson.features = features
+  },
   SET_FEATURE(state, { index, newFeature }) {
     state.geoJson.features.splice(index, 1, newFeature)
   },
