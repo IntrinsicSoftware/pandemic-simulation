@@ -29,16 +29,18 @@
         </div>
       </div>
     </div>
-    <PandemicMap
+    <pandemic-map
       class="relative z-0"
       :geojson="$store.getters['states/geoJson']"
-    ></PandemicMap>
+    ></pandemic-map>
+    <footer-component class="fixed w-screen bottom-0"></footer-component>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import PandemicMap from '~/components/PandemicMap.vue'
+import FooterComponent from '~/components/Footer.vue'
 
 interface PandemicOption {
   value: string
@@ -47,6 +49,7 @@ interface PandemicOption {
 
 @Component<HomePage>({
   components: {
+    FooterComponent,
     PandemicMap
   }
 })
