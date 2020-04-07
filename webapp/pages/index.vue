@@ -5,7 +5,7 @@
     ></info-panel>
     <pandemic-map
       class="relative w-full h-full z-0"
-      :geojson="$store.getters['states/geoJson']"
+      :geojson="$store.getters['states/selectedGeoJson']"
     ></pandemic-map>
     <footer-component
       class="fixed bottom-0 left-0 right-0 z-10"
@@ -33,7 +33,11 @@ body {
   background: #222222;
 }
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 700;
+  line-height: 26.4px;
 }
 </style>

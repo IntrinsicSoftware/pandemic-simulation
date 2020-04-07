@@ -3,11 +3,18 @@ class Properties {
   public name: string = ''
 }
 
+interface IProperties {
+  [key: string]: any
+}
+
 class Geometry {
   type: string
-  coordinates: number[]
+  coordinates: number[] | number[][] | number[][][] | number[][][][]
 
-  constructor(type: string, coordinates: number[]) {
+  constructor(
+    type: string,
+    coordinates: number[] | number[][] | number[][][] | number[][][][]
+  ) {
     this.type = type
     this.coordinates = coordinates
   }
@@ -16,9 +23,9 @@ class Geometry {
 class Feature {
   type: string = 'Feature'
   geometry: Geometry
-  properties: Properties
+  properties: IProperties
 
-  constructor(geometry: Geometry, properties: Properties) {
+  constructor(geometry: Geometry, properties: IProperties) {
     this.geometry = geometry
     this.properties = properties
   }

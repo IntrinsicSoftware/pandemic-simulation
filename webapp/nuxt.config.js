@@ -2,12 +2,36 @@ export default {
   mode: 'spa',
   /*
    ** Headers of the page
+
+    <meta name="" content="yes">
+    <meta name="" content="black">
+    <meta name="" content="Skyline&trade; Console">
+    <meta name="msapplication-TileImage" content="">
+
+
    */
+
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Pandemic Simulation',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        name: 'apple-mobile-web-app-capable',
+        content: 'yes'
+      },
+      {
+        name: 'apple-mobile-web-app-status-bar-style',
+        content: 'black'
+      },
+      {
+        name: 'apple-mobile-web-app-title',
+        content: 'Pandemic Simulation'
+      },
+      {
+        name: 'msapplication-TileImage',
+        content: 'ms-icon-144x144.png'
+      },
+      { name: 'msapplication-TileColor', content: '#000000' },
       {
         hid: 'description',
         name: 'description',
@@ -15,6 +39,28 @@ export default {
       }
     ],
     link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        href: 'favicon-16x16.png'
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        href: 'favicon-32x32.png'
+      },
+      {
+        rel: 'apple-touch-icon',
+        type: 'image/x-icon',
+        href: 'apple-icon-152x152.png'
+      },
       {
         rel: 'icon',
         type: 'image/x-icon',

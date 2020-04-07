@@ -12,12 +12,10 @@
         attribution="Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
       />
       <l-geo-json :geojson="geojson" :options="options" />
-      <l-marker v-show="showTooltip" ref="marker" :lat-lng="markerLatLng">
+      <l-marker ref="active-marker" :lat-lng="activeMarkerLatLng">
         <l-tooltip
-          >{{ hoveredFeature.properties.name }} -
-          {{
-            hoveredFeature.properties[$store.getters['states/property']]
-          }}</l-tooltip
+          >{{ selectedState.properties.name }} -
+          {{ selectedState.properties[selectedMetric] }}</l-tooltip
         >
       </l-marker>
     </l-map>
@@ -42,11 +40,10 @@ import { getColor } from './densityColors'
 export default class PandemicMap extends Vue {
   @Prop() private geojson!: GeoJson
 
-  private getColor: Function = getColor
-  private markerLatLng: number[] = [0, 0]
-  private showTooltip: boolean = false
   private map: any = {}
-  private marker: any = {}
+  private getColor: Function = getColor
+  private activeMarkerLatLng: number[] = [0, 0]
+  private activeMarker: any = {}
   private hoveredFeature: any = {
     properties: {}
   }
@@ -55,17 +52,26 @@ export default class PandemicMap extends Vue {
     onEachFeature: this.onEachFeatureFunction
   }
 
-  // private markerIcon = icon({
-  //   iconUrl: '/img/su-27-blue.svg',
-  //   iconSize: [20, 28],
-  //   iconAnchor: [10, 14]
-  // })
+  get selectedState() {
+    if (!this.$store.getters['states/selectedState']) {
+      return {
+        properties: { name: '' }
+      }
+    }
+    return this.$store.getters['states/selectedState']
+  }
+
+  get selectedMetric() {
+    return this.$store.getters['states/selectedMetric']
+  }
 
   mounted() {
     this.$nextTick(() => {
       this.map = (this.$refs.map && (this.$refs.map as any).mapObject) || null
-      this.marker =
-        (this.$refs.marker && (this.$refs.marker as any).mapObject) || null
+      this.activeMarker =
+        (this.$refs['active-marker'] &&
+          (this.$refs['active-marker'] as any).mapObject) ||
+        null
     })
   }
 
@@ -75,32 +81,25 @@ export default class PandemicMap extends Vue {
     })
     layer.on({
       click: () => {
-        return this.entityClickHandler(feature)
+        return this.entityClickHandler(layer, feature)
       },
       mouseover: () => {
-        return this.entityMouseoverHandler(layer, feature)
+        return this.entityMouseoverHandler(layer)
       },
       mouseout: () => {
         return this.entityMouseoutHandler(layer, feature)
-      },
-      mousemove: () => {
-        return this.entityMouseMoveHandler(layer)
       }
     })
   }
 
-  private entityClickHandler(feature: Feature) {
-    this.$store.dispatch('states/setSelectedState', feature)
+  private entityClickHandler(layer: any, feature: Feature) {
+    this.activeMarkerLatLng = layer.getBounds().getCenter()
+    this.activeMarker.openTooltip()
+    this.$store.dispatch('states/setSelectedStateName', feature)
   }
 
-  private entityMouseMoveHandler(layer: any) {
-    this.markerLatLng = layer.getBounds().getCenter()
-  }
-
-  private entityMouseoverHandler(layer: any, feature: Feature) {
-    this.hoveredFeature = feature
-    this.showTooltip = true
-    this.marker.openTooltip()
+  private entityMouseoverHandler(layer: any) {
+    this.activeMarker.openTooltip()
     layer.setStyle({
       color: '#ffff00'
     })

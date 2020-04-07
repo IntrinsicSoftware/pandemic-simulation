@@ -1,20 +1,39 @@
 const fs = require('fs')
 const path = require('path')
 const axios = require('axios')
-const apiGeoJsonAdapter = require('../config/stateGeoJsonAdapter')
-const API_URL = 'https://covidtracking.com/api/states'
-const OUTPUT_FILENAME = 'stateGeoJson.json'
+const DateUtils = require('../utils/DateUtility')
+const HISTORIC_API_URL = 'https://covidtracking.com/api/v1/states/daily.json'
+const CURRENT_API_URL = 'https://covidtracking.com/api/v1/states/current.json'
+const OUTPUT_FILENAME = 'statesData.json'
 
 init()
 
 async function init() {
   try {
-    const data = await getData(API_URL)
-    const geoJson = apiGeoJsonAdapter(data)
-    saveData(geoJson, OUTPUT_FILENAME)
+    const historicalData = await getData(HISTORIC_API_URL)
+    let todaysData = await getData(CURRENT_API_URL)
+    todaysData = addTodaysDateToProperties(todaysData) // current data does not include a date property
+    const data = historicalData.concat(todaysData) // combine all data
+    // Store data as a map, the key is the date string, value is the entry
+    const dataByDate = data.reduce((acc, apiData) => {
+      if (!acc[apiData.date]) {
+        acc[apiData.date] = [apiData]
+      } else {
+        acc[apiData.date].push(apiData)
+      }
+      return acc
+    }, {})
+    saveData(dataByDate, OUTPUT_FILENAME)
   } catch (err) {
     console.error('There was an error generating the pandemic data. ', err) // eslint-disable-line
   }
+}
+
+function addTodaysDateToProperties(data) {
+  return data.map((item) => {
+    item.date = DateUtils.getApiStringFromDate(new Date())
+    return item
+  })
 }
 
 async function getData(url) {

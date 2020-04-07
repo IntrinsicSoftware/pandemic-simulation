@@ -1,5 +1,5 @@
+const baseStateGeoJson = require('./geoJson')
 const stateAbbreviations = require('./stateAbbreviations')
-const baseStateGeoJson = require('./baseStateGeoJson')
 
 function statesToGeoJson(stateApiData) {
   const mappedStateData = mapStateData(stateApiData)
@@ -7,8 +7,10 @@ function statesToGeoJson(stateApiData) {
   return stateGeoJson
 }
 
+// Takes the base geoJSON schema and adds the properties from the API
 function mapGeoJsonStateData(mappedStateData) {
-  baseStateGeoJson.features = baseStateGeoJson.features.map((feature) => {
+  const baseGeo = JSON.parse(JSON.stringify(baseStateGeoJson)) // make a deep copy
+  baseGeo.features = baseGeo.features.map((feature) => {
     feature.properties = Object.assign(
       feature.properties,
       mappedStateData[feature.properties.name]
@@ -16,7 +18,7 @@ function mapGeoJsonStateData(mappedStateData) {
     feature.properties.density = 0
     return feature
   })
-  return baseStateGeoJson
+  return baseGeo
 }
 
 // convert state data to a map. key = full state name, value is the pandemic state data
