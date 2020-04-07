@@ -2,7 +2,7 @@
   <footer
     class="footer text-gray-400 h-12 text-center text-xs flex justify-center items-center border-t-2 flex flex-col"
   >
-    <a class="pr-1" href="https://www.intrinsic.ventures" target="_blank"
+    <a class="pr-1" href="//www.intrinsic.ventures" target="_blank"
       >- INTRINSIC -</a
     >
     <div>&copy; 2020 Intrinsic All Rights Reserved</div>

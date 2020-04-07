@@ -11,8 +11,8 @@
     </div>
 
     <div class="text-xs mt-1">
-      Data is based on the covid tracking project
-      <a class="underline" href="https://covidtracking.com" target="_blank"
+      Data is based on the COVID Tracking Project
+      <a class="underline" href="//covidtracking.com" target="_blank"
         >covidtracking.com</a
       >
     </div>
@@ -107,11 +107,11 @@ export default class InfoPanel extends Vue {
   private selectedDate: any = ''
 
   private options: PandemicOption[] = [
-    { value: 'death', label: 'Deaths' },
-    { value: 'positive', label: 'Positive Test Results' },
-    { value: 'negative', label: 'Negative Test Results' },
+    { value: 'death', label: 'COVID-19 Deaths' },
+    { value: 'positive', label: 'COVID-19 Positive' },
+    { value: 'negative', label: 'COVID-19 Negative' },
     { value: 'hospitalized', label: 'Hospitalized' },
-    { value: 'totalTestResults', label: 'Total Test Results' }
+    { value: 'totalTestResults', label: 'COVID-19 Total Tests' }
   ]
 
   get date() {
