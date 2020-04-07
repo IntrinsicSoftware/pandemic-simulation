@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-blue w-full h-full">
+  <section class="bg-blue">
     <l-map
       ref="map"
       :zoom="5"
@@ -28,6 +28,7 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { LMap, LGeoJson, LMarker, LTooltip, LTileLayer } from 'vue2-leaflet'
 import { GeoJson, Feature } from '../models/GeoJson'
+import { getColor } from './densityColors'
 
 @Component<PandemicMap>({
   components: {
@@ -41,6 +42,7 @@ import { GeoJson, Feature } from '../models/GeoJson'
 export default class PandemicMap extends Vue {
   @Prop() private geojson!: GeoJson
 
+  private getColor: Function = getColor
   private markerLatLng: number[] = [0, 0]
   private showTooltip: boolean = false
   private map: any = {}
@@ -73,7 +75,7 @@ export default class PandemicMap extends Vue {
     })
     layer.on({
       click: () => {
-        return this.entityClickHandler()
+        return this.entityClickHandler(feature)
       },
       mouseover: () => {
         return this.entityMouseoverHandler(layer, feature)
@@ -81,18 +83,18 @@ export default class PandemicMap extends Vue {
       mouseout: () => {
         return this.entityMouseoutHandler(layer, feature)
       },
-      mousemove: (e: any) => {
-        return this.entityMouseMoveHandler(e)
+      mousemove: () => {
+        return this.entityMouseMoveHandler(layer)
       }
     })
   }
 
-  private entityClickHandler() {
-    // console.log('clicked layer', layer)
+  private entityClickHandler(feature: Feature) {
+    this.$store.dispatch('states/setSelectedState', feature)
   }
 
-  private entityMouseMoveHandler(e: any) {
-    this.markerLatLng = this.map.mouseEventToLatLng(e.originalEvent)
+  private entityMouseMoveHandler(layer: any) {
+    this.markerLatLng = layer.getBounds().getCenter()
   }
 
   private entityMouseoverHandler(layer: any, feature: Feature) {
@@ -108,24 +110,6 @@ export default class PandemicMap extends Vue {
     layer.setStyle({
       color: this.getColor(feature.properties.density)
     })
-  }
-
-  private getColor(d: number) {
-    return d > 1000
-      ? '#800026'
-      : d > 500
-      ? '#BD0026'
-      : d > 200
-      ? '#E31A1C'
-      : d > 100
-      ? '#FC4E2A'
-      : d > 50
-      ? '#FD8D3C'
-      : d > 20
-      ? '#FEB24C'
-      : d > 10
-      ? '#FED976'
-      : '#FFEDA0'
   }
 }
 </script>

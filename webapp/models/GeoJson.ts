@@ -1,5 +1,6 @@
 class Properties {
   public density: number = 0
+  public name: string = ''
 }
 
 class Geometry {
