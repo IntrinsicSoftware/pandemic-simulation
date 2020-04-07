@@ -25,6 +25,10 @@ export default {
         hid: 'description',
         name: 'description',
         content: process.env.npm_package_description || ''
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width,initial-scale=1.0'
       }
     ],
     link: [
