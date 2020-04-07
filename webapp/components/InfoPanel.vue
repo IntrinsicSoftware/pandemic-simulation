@@ -7,11 +7,7 @@
     <div
       class="text-2xl text-center md:text-3xl font-bold border-b-2 pb-2 border-inherit"
     >
-      {{
-        $store.getters['states/date']
-          ? $store.getters['states/date'].toLocaleDateString()
-          : ''
-      }}
+      {{ date }}
     </div>
 
     <div class="text-xs mt-1">
@@ -117,6 +113,12 @@ export default class InfoPanel extends Vue {
     { value: 'hospitalized', label: 'Hospitalized' },
     { value: 'totalTestResults', label: 'Total Test Results' }
   ]
+
+  get date() {
+    return this.$store.getters['states/date']
+      ? this.$store.getters['states/date'].toLocaleDateString()
+      : ''
+  }
 
   get dateRange() {
     return this.$store.getters['states/dateRange']

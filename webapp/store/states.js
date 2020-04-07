@@ -57,6 +57,8 @@ const actions = {
           }
         }, DELAY)
       } catch (err) {
+        clearInterval(interval)
+        interval = null
         reject(err)
       }
     })
