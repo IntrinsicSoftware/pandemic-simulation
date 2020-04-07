@@ -5,7 +5,7 @@ export default {
 
     <meta name="" content="yes">
     <meta name="" content="black">
-    <meta name="" content="Skyline&trade; Console">
+    <meta name="" content="Pandemic Simulation">
     <meta name="msapplication-TileImage" content="">
 
 
