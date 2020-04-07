@@ -107,11 +107,11 @@ export default class InfoPanel extends Vue {
   private selectedDate: any = ''
 
   private options: PandemicOption[] = [
-    { value: 'death', label: 'Deaths' },
-    { value: 'positive', label: 'Positive Test Results' },
-    { value: 'negative', label: 'Negative Test Results' },
+    { value: 'death', label: 'COVID-19 Deaths' },
+    { value: 'positive', label: 'COVID-19 Positive' },
+    { value: 'negative', label: 'COVID-19 Negative' },
     { value: 'hospitalized', label: 'Hospitalized' },
-    { value: 'totalTestResults', label: 'Total Test Results' }
+    { value: 'totalTestResults', label: 'COVID-19 Total Tests' }
   ]
 
   get date() {
