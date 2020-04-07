@@ -1,16 +1,5 @@
 export default {
   mode: 'spa',
-  /*
-   ** Headers of the page
-
-    <meta name="" content="yes">
-    <meta name="" content="black">
-    <meta name="" content="Pandemic Simulation">
-    <meta name="msapplication-TileImage" content="">
-
-
-   */
-
   head: {
     title: 'Pandemic Simulation',
     meta: [
