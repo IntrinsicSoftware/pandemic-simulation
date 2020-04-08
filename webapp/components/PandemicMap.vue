@@ -14,8 +14,12 @@
       <l-geo-json :geojson="geojson" :options="options" />
       <l-marker ref="active-marker" :lat-lng="activeMarkerLatLng">
         <l-tooltip
-          >{{ selectedState.properties.name }} -
-          {{ selectedState.properties[selectedMetric] }}</l-tooltip
+          ><span class="text-base font-bold">
+            {{ selectedState.properties.name }}
+          </span>
+          <span class="text-base ">
+            {{ selectedState.properties[selectedMetric] | numeric }}
+          </span></l-tooltip
         >
       </l-marker>
     </l-map>
@@ -26,7 +30,6 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { LMap, LGeoJson, LMarker, LTooltip, LTileLayer } from 'vue2-leaflet'
 import { GeoJson, Feature } from '../models/GeoJson'
-import { getColor } from './densityColors'
 
 @Component<PandemicMap>({
   components: {
@@ -35,13 +38,20 @@ import { getColor } from './densityColors'
     LMarker,
     LTooltip,
     LTileLayer
+  },
+  filters: {
+    numeric(num: number) {
+      if (num) {
+        return num.toLocaleString()
+      }
+      return 0
+    }
   }
 })
 export default class PandemicMap extends Vue {
   @Prop() private geojson!: GeoJson
 
   private map: any = {}
-  private getColor: Function = getColor
   private activeMarkerLatLng: number[] = [0, 0]
   private activeMarker: any = {}
   private hoveredFeature: any = {
@@ -50,6 +60,10 @@ export default class PandemicMap extends Vue {
 
   private options: any = {
     onEachFeature: this.onEachFeatureFunction
+  }
+
+  get getColor() {
+    return this.$store.getters['states/densityColorPallete']
   }
 
   get selectedState() {
