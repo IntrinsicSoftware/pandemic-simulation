@@ -39,9 +39,4 @@ class DensityPallet {
   static GREEN = greenPalette
 }
 
-enum DensityPalletTypes {
-  RED,
-  GREEN
-}
-
-export { DensityPallet, DensityPalletTypes }
+export { DensityPallet }
