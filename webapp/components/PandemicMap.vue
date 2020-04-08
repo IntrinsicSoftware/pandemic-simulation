@@ -63,7 +63,7 @@ export default class PandemicMap extends Vue {
   }
 
   get getColor() {
-    return this.$store.getters['states/densityColorPallete']
+    return this.$store.getters['states/densityColorPalette']
   }
 
   get selectedState() {

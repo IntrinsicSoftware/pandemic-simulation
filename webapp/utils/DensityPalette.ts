@@ -34,9 +34,9 @@ function greenPalette(d: number) {
     : '#FFEDA0'
 }
 
-class DensityPallet {
+class DensityPalette {
   static RED = redPalette
   static GREEN = greenPalette
 }
 
-export { DensityPallet }
+module.exports = DensityPalette

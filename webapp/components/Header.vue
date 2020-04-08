@@ -165,36 +165,36 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { DensityPallet } from '~/models/DensityPallets'
 const DateUtil = require('../utils/DateUtility')
+const DensityPalette = require('../utils/DensityPalette')
 
 interface PandemicMetric {
   value: string
   label: string
-  pallete: any
+  palette: any
 }
 
 const metrics: PandemicMetric[] = [
-  { value: 'death', label: 'COVID-19 Deaths', pallete: DensityPallet.RED },
+  { value: 'death', label: 'COVID-19 Deaths', palette: DensityPalette.RED },
   {
     value: 'positive',
     label: 'COVID-19 Positive',
-    pallete: DensityPallet.RED
+    palette: DensityPalette.RED
   },
   {
     value: 'negative',
     label: 'COVID-19 Negative',
-    pallete: DensityPallet.GREEN
+    palette: DensityPalette.GREEN
   },
   {
     value: 'hospitalized',
     label: 'Hospitalized',
-    pallete: DensityPallet.RED
+    palette: DensityPalette.RED
   },
   {
     value: 'totalTestResults',
     label: 'COVID-19 Total Tests',
-    pallete: DensityPallet.GREEN
+    palette: DensityPalette.GREEN
   }
 ]
 
@@ -244,7 +244,7 @@ export default class Header extends Vue {
 
   private setMetric() {
     this.$store.dispatch('states/setMetric', this.metric.value)
-    this.$store.dispatch('states/setDensityColorPallete', this.metric.pallete)
+    this.$store.dispatch('states/setDensityColorPalette', this.metric.palette)
   }
 
   private slideChangeHandler() {

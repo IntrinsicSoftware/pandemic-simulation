@@ -1,7 +1,7 @@
 import stateData from '~/static/data/statesData.json'
-import { DensityPallet } from '~/models/DensityPallets'
 const apiGeoJsonAdapter = require('../utils/stateGeoJsonAdapter')
 const DateUtil = require('../utils/DateUtility')
+const DensityPalette = require('../utils/DensityPalette')
 
 const dateRange = Object.keys(stateData)
   .map((dateString) => {
@@ -49,7 +49,7 @@ const state = () => ({
   selectedGeoJson: apiGeoJsonAdapter(latestStateData),
   selectedMetric: 'death',
   selectedState: null,
-  densityColorPallete: DensityPallet.RED,
+  densityColorPalette: DensityPalette.RED,
   dateRange,
   date: DateUtil.getDateFromApiString(latestStateData[0].date)
 })
@@ -73,8 +73,8 @@ const actions = {
   setSelectedStateName({ commit }, state) {
     commit('SET_SELECTED_STATE', state.properties.name)
   },
-  setDensityColorPallete({ commit }, pallete) {
-    commit('SET_DENSITY_COLOR_PALLETE', pallete)
+  setDensityColorPalette({ commit }, palette) {
+    commit('SET_DENSITY_COLOR_PALLETE', palette)
   }
 }
 
@@ -100,8 +100,8 @@ const getters = {
     })
     return item
   },
-  densityColorPallete: (state) => {
-    return state.densityColorPallete
+  densityColorPalette: (state) => {
+    return state.densityColorPalette
   }
 }
 
@@ -121,8 +121,8 @@ const mutations = {
   SET_DATE(state, date) {
     state.date = date
   },
-  SET_DENSITY_COLOR_PALLETE(state, pallete) {
-    state.densityColorPallete = pallete
+  SET_DENSITY_COLOR_PALLETE(state, palette) {
+    state.densityColorPalette = palette
   }
 }
 
