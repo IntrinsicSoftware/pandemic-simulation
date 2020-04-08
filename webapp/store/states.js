@@ -16,6 +16,31 @@ const dateRange = Object.keys(stateData)
     return 0
   })
 
+const getFeaturesWithDensity = (selectedMetric, geoJson) => {
+  const highestPropertyValue = geoJson.features.reduce((acc, feature) => {
+    const value = Number(feature.properties[selectedMetric])
+    if (value > acc) {
+      acc = value
+    }
+    return acc
+  }, 0)
+  // Get the ratio for calculating density between 0 - 1000
+  const ratio = 1000 / highestPropertyValue
+  // Update density based on ratio for each state
+  const features = geoJson.features.reduce((acc, feature) => {
+    const propertyValue = Number(feature.properties[selectedMetric])
+    const newFeature = { ...feature }
+    let density = 0
+    if (propertyValue) {
+      density = ratio * propertyValue
+    }
+    newFeature.properties = { ...feature.properties }
+    newFeature.properties.density = density
+    acc.push(newFeature)
+    return acc
+  }, [])
+  return features
+}
 const latestStateData =
   stateData[Object.keys(stateData)[Object.keys(stateData).length - 1]]
 
@@ -24,69 +49,13 @@ const state = () => ({
   selectedMetric: 'death',
   selectedState: null,
   dateRange,
-  playing: false,
   date: DateUtil.getDateFromApiString(latestStateData[0].date)
 })
 
-let interval = null
-
 const actions = {
-  playHistoricalData({ commit, dispatch, state }) {
-    return new Promise((resolve, reject) => {
-      const DELAY = 500
-      if (interval) {
-        clearInterval(interval)
-        interval = null
-      }
-      commit('SET_PLAYING', true)
-      let index = dateRange.findIndex((item) => {
-        return (
-          DateUtil.getApiStringFromDate(item) ===
-          DateUtil.getApiStringFromDate(state.date)
-        )
-      })
-      try {
-        interval = setInterval(() => {
-          dispatch('setGeoJsonByDate', dateRange[index])
-          index++
-          if (index === dateRange.length) {
-            clearInterval(interval)
-            interval = null
-            commit('SET_PLAYING', false)
-            resolve()
-          }
-        }, DELAY)
-      } catch (err) {
-        clearInterval(interval)
-        interval = null
-        reject(err)
-      }
-    })
-  },
   setGeoJson({ commit, state }, geoJson) {
     const selectedMetric = state.selectedMetric.toString()
-    const highestPropertyValue = geoJson.features.reduce((acc, feature) => {
-      const value = Number(feature.properties[selectedMetric])
-      if (value > acc) {
-        acc = value
-      }
-      return acc
-    }, 0)
-    // Get the ratio for calculating density between 0 - 1000
-    const ratio = 1000 / highestPropertyValue
-    // Update density based on ratio for each state
-    const features = geoJson.features.reduce((acc, feature) => {
-      const propertyValue = Number(feature.properties[selectedMetric])
-      const newFeature = { ...feature }
-      let density = 0
-      if (propertyValue) {
-        density = ratio * propertyValue
-      }
-      newFeature.properties = { ...feature.properties }
-      newFeature.properties.density = density
-      acc.push(newFeature)
-      return acc
-    }, [])
+    const features = getFeaturesWithDensity(selectedMetric, geoJson)
     commit('SET_FEATURES', features)
   },
   setMetric({ commit, dispatch, state }, metric) {
@@ -125,9 +94,6 @@ const getters = {
       return item.properties.name === state.selectedState
     })
     return item
-  },
-  playing: (state) => {
-    return state.playing
   }
 }
 
@@ -146,9 +112,6 @@ const mutations = {
   },
   SET_DATE(state, date) {
     state.date = date
-  },
-  SET_PLAYING(state, playing) {
-    state.playing = playing
   }
 }
 

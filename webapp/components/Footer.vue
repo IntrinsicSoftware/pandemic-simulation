@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="footer text-gray-400 h-12 text-center text-xs flex justify-center items-center border-t-2 flex flex-col"
+    class="footer h-16 text-gray-400 text-center text-xs flex justify-center items-center border-t-2 flex flex-col"
   >
     <a class="pr-1" href="//www.intrinsic.ventures" target="_blank"
       >- INTRINSIC -</a
