@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-blue">
+  <section class="text-white">
     <l-map
       ref="map"
       :zoom="5"
@@ -72,6 +72,11 @@ export default class PandemicMap extends Vue {
         (this.$refs['active-marker'] &&
           (this.$refs['active-marker'] as any).mapObject) ||
         null
+
+      this.map.fitBounds([
+        [22.268764, -125.595703],
+        [47.989922, -64.775391]
+      ])
     })
   }
 
