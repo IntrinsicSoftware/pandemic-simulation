@@ -1,13 +1,28 @@
 <template>
   <section class="border-b-2 px-4 text-white">
     <div class="flex items-center h-16">
+      <div
+        class="mr-4 cursor-pointer text-gray-500"
+        :class="{ 'text-blue-500': showInfo }"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="fill-current h-6 w-6"
+          viewBox="0 0 20 20"
+          @click="showInfo = !showInfo"
+        >
+          <path
+            d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"
+          />
+        </svg>
+      </div>
       <input
-        v-model="dateIndex"
+        v-model="timelineDateIndex"
         type="range"
         min="0"
         :max="dateRange.length - 1"
         class="appearance-none w-full h-1 bg-gray-400 rounded outline-none slider-thumb"
-        @input="slideChangeHandler"
+        @input="timelineChangeHandler"
       />
       <div class="mx-4 cursor-pointer text-gray-500">
         <svg
@@ -29,14 +44,19 @@
           <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
         </svg>
       </div>
-      <div class="cursor-pointer relative  text-gray-500">
+      <div
+        class="cursor-pointer relative text-gray-500"
+        :class="{ 'text-blue-500': showOptions }"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          class="fill-current h-5 w-5"
+          viewBox="0 0 24 24"
+          class="fill-current h-8 w-8"
           @click="showOptions = !showOptions"
         >
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+          <path
+            d="M9 4.58V4c0-1.1.9-2 2-2h2a2 2 0 0 1 2 2v.58a8 8 0 0 1 1.92 1.11l.5-.29a2 2 0 0 1 2.74.73l1 1.74a2 2 0 0 1-.73 2.73l-.5.29a8.06 8.06 0 0 1 0 2.22l.5.3a2 2 0 0 1 .73 2.72l-1 1.74a2 2 0 0 1-2.73.73l-.5-.3A8 8 0 0 1 15 19.43V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.58a8 8 0 0 1-1.92-1.11l-.5.29a2 2 0 0 1-2.74-.73l-1-1.74a2 2 0 0 1 .73-2.73l.5-.29a8.06 8.06 0 0 1 0-2.22l-.5-.3a2 2 0 0 1-.73-2.72l1-1.74a2 2 0 0 1 2.73-.73l.5.3A8 8 0 0 1 9 4.57zM7.88 7.64l-.54.51-1.77-1.02-1 1.74 1.76 1.01-.17.73a6.02 6.02 0 0 0 0 2.78l.17.73-1.76 1.01 1 1.74 1.77-1.02.54.51a6 6 0 0 0 2.4 1.4l.72.2V20h2v-2.04l.71-.2a6 6 0 0 0 2.41-1.4l.54-.51 1.77 1.02 1-1.74-1.76-1.01.17-.73a6.02 6.02 0 0 0 0-2.78l-.17-.73 1.76-1.01-1-1.74-1.77 1.02-.54-.51a6 6 0 0 0-2.4-1.4l-.72-.2V4h-2v2.04l-.71.2a6 6 0 0 0-2.41 1.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+          />
         </svg>
       </div>
     </div>
@@ -91,6 +111,45 @@
       </div>
     </div>
 
+    <!-- Info -->
+    <div
+      v-if="showInfo"
+      class="info absolute left-0 bg-black p-4 rounded rounded-t-none mt-0 border-t-2 z-20"
+    >
+      <div class="mb-4">
+        <div class="text-3xl font-serif">COVID-19 Data</div>
+        <p class="my-2">
+          Built by
+          <a
+            href="//www.intrinsic.ventures"
+            class="underline text-blue-700"
+            target="_blank"
+            >Intrinsic</a
+          >
+        </p>
+        <p class="my-2">
+          Data is pulled daily from the
+          <a
+            href="https://covidtracking.com/"
+            class="underline text-blue-700"
+            target="_blank"
+            >COVID Tracking Project</a
+          >
+        </p>
+        <p>
+          Map is powered by
+          <a
+            href="https://leafletjs.com/"
+            class="underline text-blue-700"
+            target="_blank"
+            >Leaflet</a
+          >. Map tiles by Carto, under CC BY 3.0. <br />
+          Data by OpenStreetMap, under ODbL.
+        </p>
+      </div>
+    </div>
+
+    <!-- Date and metric labels -->
     <div class="absolute bottom-0 left-0 right-0 mx-4 z-10">
       <div
         class="absolute left-0 text-2xl mt-2 md:mt-0 md:text-4xl lg:text-5xl xl:text-6xl font-serif"
@@ -98,7 +157,7 @@
         {{ selectedMetric.label }}
       </div>
       <div
-        class="absolute right-0 text-2xl mt-2 md:mt-0 md:text-4xl lg:text-5xl xl:text-6xl font-serif"
+        class="absolute right-0 text-2xl mt-2 md:mt-0 md:text-4xl lg:text-5xl xl:text-6xl"
       >
         {{ date }}
       </div>
@@ -109,25 +168,44 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 const DateUtil = require('../utils/DateUtility')
+const DensityPalette = require('../utils/DensityPalette')
 
 interface PandemicMetric {
   value: string
   label: string
+  palette: any
 }
 
 const metrics: PandemicMetric[] = [
-  { value: 'death', label: 'COVID-19 Deaths' },
-  { value: 'positive', label: 'COVID-19 Positive' },
-  { value: 'negative', label: 'COVID-19 Negative' },
-  { value: 'hospitalized', label: 'Hospitalized' },
-  { value: 'totalTestResults', label: 'COVID-19 Total Tests' }
+  { value: 'death', label: 'COVID-19 Deaths', palette: DensityPalette.RED },
+  {
+    value: 'positive',
+    label: 'COVID-19 Positive',
+    palette: DensityPalette.RED
+  },
+  {
+    value: 'negative',
+    label: 'COVID-19 Negative',
+    palette: DensityPalette.GREEN
+  },
+  {
+    value: 'hospitalized',
+    label: 'Hospitalized',
+    palette: DensityPalette.RED
+  },
+  {
+    value: 'totalTestResults',
+    label: 'COVID-19 Total Tests',
+    palette: DensityPalette.GREEN
+  }
 ]
 
 @Component<Header>({})
 export default class Header extends Vue {
-  private dateIndex: number = 0
+  private timelineDateIndex: number = 0
   private playing: boolean = false
   private showOptions: boolean = false
+  private showInfo: boolean = false
   private interval: any = null
   private intervalSpeed: number = 250
   private metrics: PandemicMetric[] = metrics
@@ -157,9 +235,10 @@ export default class Header extends Vue {
   }
 
   mounted() {
-    this.dateIndex = this.dateRange.length - 1
-    // Fire an even to set the intial datas density
-    // kinda of a hack, the store shoudl initialize with correct density
+    this.timelineDateIndex = this.dateRange.length - 1
+    // TODO - see if we can fix this
+    // Fire an event to set the initial geoJson density
+    // kinda of a hack, the store should initialize with correct density
     const date = this.dateRange[this.dateRange.length - 1]
     if (date) {
       this.$store.dispatch('states/setGeoJsonByDate', date)
@@ -167,14 +246,12 @@ export default class Header extends Vue {
   }
 
   private setMetric() {
-    const metric = this.metric.value
-    if (metric) {
-      this.$store.dispatch('states/setMetric', metric)
-    }
+    this.$store.dispatch('states/setMetric', this.metric.value)
+    this.$store.dispatch('states/setDensityColorPalette', this.metric.palette)
   }
 
-  private slideChangeHandler() {
-    const date = this.dateRange[this.dateIndex]
+  private timelineChangeHandler() {
+    const date = this.dateRange[this.timelineDateIndex]
     if (date) {
       this.$store.dispatch('states/setGeoJsonByDate', date)
     }
@@ -190,9 +267,9 @@ export default class Header extends Vue {
   }
 
   private playTimeline() {
-    let date = this.dateRange[this.dateIndex]
+    let date = this.dateRange[this.timelineDateIndex]
     // If we are currently on the latest date, start timeline from beginning
-    if (this.dateIndex === this.dateRange.length - 1) {
+    if (Number(this.timelineDateIndex) === this.dateRange.length - 1) {
       date = this.dateRange[0]
     }
     this.stopTimeline()
@@ -213,7 +290,7 @@ export default class Header extends Vue {
         if (index === this.dateRange.length) {
           this.stopTimeline()
         } else {
-          this.dateIndex = index
+          this.timelineDateIndex = index
         }
       }, this.intervalSpeed)
     } catch (err) {
@@ -223,22 +300,19 @@ export default class Header extends Vue {
 
   private restartTimeline() {
     if (this.playing) {
-      this.stopTimeline()
       this.playTimeline()
     }
   }
 }
 </script>
 <style scoped lang="sass">
-section, .options
+section, .options, .info
   background: rgb(10,10,10)
   border-color: #262626
 
-.options
-  background: rgba(10,10,10, 0.9)
 .slider-thumb::-webkit-slider-thumb
   @apply appearance-none w-6 h-6 rounded-full bg-gray-500 cursor-pointer
 
 .slider-thumb::-webkit-slider-thumb:hover
-  @apply bg-gray-700
+  @apply bg-blue-700
 </style>

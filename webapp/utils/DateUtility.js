@@ -1,8 +1,8 @@
 class DateUtil {
   static getApiStringFromDate(date) {
     const fullYear = date.getFullYear()
-    let month = date.getUTCMonth() + 1 // getMonth is 0 based
-    let day = date.getUTCDate().toString()
+    let month = date.getMonth() + 1 // getMonth is 0 based
+    let day = date.getDate().toString()
     month = month.toString()
     if (month.length < 2) {
       month = '0' + month
