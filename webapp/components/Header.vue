@@ -128,12 +128,12 @@
           >
         </p>
         <p class="my-2">
-          Data is pulled daily from the COVID Tracking Project
+          Data is pulled daily from the 
           <a
             href="https://covidtracking.com/"
             class="underline text-blue-700"
             target="_blank"
-            >covidtracking.com</a
+            >COVID Tracking Project</a
           >
         </p>
         <p>
