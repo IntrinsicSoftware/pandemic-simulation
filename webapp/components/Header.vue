@@ -167,38 +167,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { PandemicMetric, pandemicMetrics } from '../models/PandemicMetric'
 const DateUtil = require('../utils/DateUtility')
-const DensityPalette = require('../utils/DensityPalette')
-
-interface PandemicMetric {
-  value: string
-  label: string
-  palette: any
-}
-
-const metrics: PandemicMetric[] = [
-  { value: 'death', label: 'COVID-19 Deaths', palette: DensityPalette.RED },
-  {
-    value: 'positive',
-    label: 'COVID-19 Positive',
-    palette: DensityPalette.RED
-  },
-  {
-    value: 'negative',
-    label: 'COVID-19 Negative',
-    palette: DensityPalette.GREEN
-  },
-  {
-    value: 'hospitalized',
-    label: 'Hospitalized',
-    palette: DensityPalette.RED
-  },
-  {
-    value: 'totalTestResults',
-    label: 'COVID-19 Total Tests',
-    palette: DensityPalette.GREEN
-  }
-]
 
 @Component<Header>({})
 export default class Header extends Vue {
@@ -208,8 +178,8 @@ export default class Header extends Vue {
   private showInfo: boolean = false
   private interval: any = null
   private intervalSpeed: number = 250
-  private metrics: PandemicMetric[] = metrics
-  private metric: PandemicMetric = metrics[0]
+  private metrics: PandemicMetric[] = pandemicMetrics
+  private metric: PandemicMetric = pandemicMetrics[0]
 
   get dateRange() {
     return this.$store.getters['states/dateRange'] || []

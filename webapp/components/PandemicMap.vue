@@ -58,7 +58,7 @@ export default class PandemicMap extends Vue {
     onEachFeature: this.onEachFeatureFunction
   }
 
-  get getColor() {
+  get colorPalette() {
     return this.$store.getters['states/densityColorPalette']
   }
 
@@ -92,7 +92,7 @@ export default class PandemicMap extends Vue {
 
   private onEachFeatureFunction(feature: Feature, layer: any) {
     layer.setStyle({
-      color: this.getColor(feature.properties.density)
+      color: this.colorPalette.getColor(feature.properties.density)
     })
     layer.on({
       click: () => {
@@ -122,7 +122,7 @@ export default class PandemicMap extends Vue {
 
   private entityMouseoutHandler(layer: any, feature: Feature) {
     layer.setStyle({
-      color: this.getColor(feature.properties.density)
+      color: this.colorPalette.getColor(feature.properties.density)
     })
   }
 }
