@@ -128,7 +128,7 @@
           >
         </p>
         <p class="my-2">
-          Data is pulled daily from the 
+          Data is pulled daily from the
           <a
             href="https://covidtracking.com/"
             class="underline text-blue-700"
@@ -237,7 +237,7 @@ export default class Header extends Vue {
   mounted() {
     this.timelineDateIndex = this.dateRange.length - 1
     // TODO - see if we can fix this
-    // Fire an event to set the intial geoJson density
+    // Fire an event to set the initial geoJson density
     // kinda of a hack, the store should initialize with correct density
     const date = this.dateRange[this.dateRange.length - 1]
     if (date) {
