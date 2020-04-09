@@ -124,7 +124,7 @@
             href="//www.intrinsic.ventures"
             class="underline text-blue-700"
             target="_blank"
-            >Intrinsic</a
+            >Intrinsic Ventures</a
           >
         </p>
         <p class="my-2">
