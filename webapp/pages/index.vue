@@ -5,7 +5,7 @@
     ></header-component>
     <pandemic-map
       class="relative w-full h-full z-0"
-      :geojson="$store.getters['states/selectedGeoJson']"
+      :geojson="$store.getters['states/getSelectedGeoJson']"
     ></pandemic-map>
     <footer-component></footer-component>
   </section>

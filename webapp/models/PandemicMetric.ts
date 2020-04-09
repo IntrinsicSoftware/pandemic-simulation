@@ -25,7 +25,7 @@ const pandemicMetrics: IPandemicMetric[] = [
   new PandemicMetric(
     'totalTestResults',
     'COVID-19 Total Tests',
-    densityPalettes.RED
+    densityPalettes.GREEN
   )
 ]
 

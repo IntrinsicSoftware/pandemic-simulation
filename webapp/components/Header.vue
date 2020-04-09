@@ -172,7 +172,6 @@ const DateUtil = require('../utils/DateUtility')
 
 @Component<Header>({})
 export default class Header extends Vue {
-  private timelineDateIndex: number = 0
   private playing: boolean = false
   private showOptions: boolean = false
   private showInfo: boolean = false
@@ -181,47 +180,36 @@ export default class Header extends Vue {
   private metrics: PandemicMetric[] = pandemicMetrics
   private metric: PandemicMetric = pandemicMetrics[0]
 
+  get timelineDateIndex() {
+    return this.dateRange.findIndex((date: Date) => {
+      return this.$store.getters['states/getDate'] === date
+    })
+  }
+
+  set timelineDateIndex(index: number) {
+    // index
+  }
+
   get dateRange() {
-    return this.$store.getters['states/dateRange'] || []
+    return this.$store.getters['states/getDateRange'] || []
   }
 
   get selectedMetric() {
-    if (!this.$store.getters['states/selectedMetric']) {
-      return
-    }
-    const pandemicMetric = this.metrics.find((item: PandemicMetric) => {
-      return item.value === this.$store.getters['states/selectedMetric']
-    })
-
-    if (pandemicMetric) {
-      return pandemicMetric
-    }
+    return this.$store.getters['states/getSelectedMetric'] || {}
   }
 
   get date() {
-    return this.$store.getters['states/date']
-      ? this.$store.getters['states/date'].toLocaleDateString()
+    return this.$store.getters['states/getDate']
+      ? this.$store.getters['states/getDate'].toLocaleDateString()
       : null
   }
 
-  mounted() {
-    this.timelineDateIndex = this.dateRange.length - 1
-    // TODO - see if we can fix this
-    // Fire an event to set the initial geoJson density
-    // kinda of a hack, the store should initialize with correct density
-    const date = this.dateRange[this.dateRange.length - 1]
-    if (date) {
-      this.$store.dispatch('states/setGeoJsonByDate', date)
-    }
-  }
-
   private setMetric() {
-    this.$store.dispatch('states/setMetric', this.metric.value)
-    this.$store.dispatch('states/setDensityColorPalette', this.metric.palette)
+    this.$store.dispatch('states/setMetric', this.metric)
   }
 
-  private timelineChangeHandler() {
-    const date = this.dateRange[this.timelineDateIndex]
+  private timelineChangeHandler(e: any) {
+    const date = this.dateRange[e.target.value]
     if (date) {
       this.$store.dispatch('states/setGeoJsonByDate', date)
     }
