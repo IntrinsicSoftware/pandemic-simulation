@@ -54,10 +54,6 @@ export default class PandemicMap extends Vue {
   private map: any = {}
   private activeMarkerLatLng: number[] = [0, 0]
   private activeMarker: any = {}
-  private hoveredFeature: any = {
-    properties: {}
-  }
-
   private options: any = {
     onEachFeature: this.onEachFeatureFunction
   }

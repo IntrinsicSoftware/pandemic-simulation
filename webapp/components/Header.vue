@@ -17,12 +17,12 @@
         </svg>
       </div>
       <input
-        v-model="dateIndex"
+        v-model="timelineDateIndex"
         type="range"
         min="0"
         :max="dateRange.length - 1"
         class="appearance-none w-full h-1 bg-gray-400 rounded outline-none slider-thumb"
-        @input="slideChangeHandler"
+        @input="timelineChangeHandler"
       />
       <div class="mx-4 cursor-pointer text-gray-500">
         <svg
@@ -50,11 +50,13 @@
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          class="fill-current h-5 w-5"
+          viewBox="0 0 24 24"
+          class="fill-current h-8 w-8"
           @click="showOptions = !showOptions"
         >
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+          <path
+            d="M9 4.58V4c0-1.1.9-2 2-2h2a2 2 0 0 1 2 2v.58a8 8 0 0 1 1.92 1.11l.5-.29a2 2 0 0 1 2.74.73l1 1.74a2 2 0 0 1-.73 2.73l-.5.29a8.06 8.06 0 0 1 0 2.22l.5.3a2 2 0 0 1 .73 2.72l-1 1.74a2 2 0 0 1-2.73.73l-.5-.3A8 8 0 0 1 15 19.43V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.58a8 8 0 0 1-1.92-1.11l-.5.29a2 2 0 0 1-2.74-.73l-1-1.74a2 2 0 0 1 .73-2.73l.5-.29a8.06 8.06 0 0 1 0-2.22l-.5-.3a2 2 0 0 1-.73-2.72l1-1.74a2 2 0 0 1 2.73-.73l.5.3A8 8 0 0 1 9 4.57zM7.88 7.64l-.54.51-1.77-1.02-1 1.74 1.76 1.01-.17.73a6.02 6.02 0 0 0 0 2.78l.17.73-1.76 1.01 1 1.74 1.77-1.02.54.51a6 6 0 0 0 2.4 1.4l.72.2V20h2v-2.04l.71-.2a6 6 0 0 0 2.41-1.4l.54-.51 1.77 1.02 1-1.74-1.76-1.01.17-.73a6.02 6.02 0 0 0 0-2.78l-.17-.73 1.76-1.01-1-1.74-1.77 1.02-.54-.51a6 6 0 0 0-2.4-1.4l-.72-.2V4h-2v2.04l-.71.2a6 6 0 0 0-2.41 1.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+          />
         </svg>
       </div>
     </div>
@@ -200,7 +202,7 @@ const metrics: PandemicMetric[] = [
 
 @Component<Header>({})
 export default class Header extends Vue {
-  private dateIndex: number = 0
+  private timelineDateIndex: number = 0
   private playing: boolean = false
   private showOptions: boolean = false
   private showInfo: boolean = false
@@ -233,8 +235,9 @@ export default class Header extends Vue {
   }
 
   mounted() {
-    this.dateIndex = this.dateRange.length - 1
-    // Fire an even to set the intial geoJson density
+    this.timelineDateIndex = this.dateRange.length - 1
+    // TODO - see if we can fix this
+    // Fire an event to set the intial geoJson density
     // kinda of a hack, the store should initialize with correct density
     const date = this.dateRange[this.dateRange.length - 1]
     if (date) {
@@ -247,8 +250,8 @@ export default class Header extends Vue {
     this.$store.dispatch('states/setDensityColorPalette', this.metric.palette)
   }
 
-  private slideChangeHandler() {
-    const date = this.dateRange[this.dateIndex]
+  private timelineChangeHandler() {
+    const date = this.dateRange[this.timelineDateIndex]
     if (date) {
       this.$store.dispatch('states/setGeoJsonByDate', date)
     }
@@ -264,9 +267,9 @@ export default class Header extends Vue {
   }
 
   private playTimeline() {
-    let date = this.dateRange[this.dateIndex]
+    let date = this.dateRange[this.timelineDateIndex]
     // If we are currently on the latest date, start timeline from beginning
-    if (Number(this.dateIndex) === this.dateRange.length - 1) {
+    if (Number(this.timelineDateIndex) === this.dateRange.length - 1) {
       date = this.dateRange[0]
     }
     this.stopTimeline()
@@ -287,7 +290,7 @@ export default class Header extends Vue {
         if (index === this.dateRange.length) {
           this.stopTimeline()
         } else {
-          this.dateIndex = index
+          this.timelineDateIndex = index
         }
       }, this.intervalSpeed)
     } catch (err) {
@@ -297,7 +300,6 @@ export default class Header extends Vue {
 
   private restartTimeline() {
     if (this.playing) {
-      this.stopTimeline()
       this.playTimeline()
     }
   }
