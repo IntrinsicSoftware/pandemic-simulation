@@ -150,7 +150,7 @@
             class="underline text-blue-700"
             target="_blank"
             >COVID Tracking Project</a
-          >. <br />Data current as of {{ lastUpdated }} (ET)
+          >. <br />Data current as of {{ lastUpdated }}
         </p>
         <p>
           Map is powered by

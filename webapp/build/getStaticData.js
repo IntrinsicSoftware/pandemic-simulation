@@ -2,50 +2,40 @@
 const fs = require('fs')
 const path = require('path')
 const axios = require('axios')
-const DateUtils = require('../utils/DateUtility')
 const HISTORIC_API_URL = 'https://covidtracking.com/api/v1/states/daily.json'
-const CURRENT_API_URL = 'https://covidtracking.com/api/v1/states/current.json'
-const OUTPUT_FILE_PATH = '../static/data/statesData.json'
-const META_OUTPUT_FILE_PATH = '../static/data/metaData.json'
+const DATA_DIRECTORY = '../static/data/'
+const OUTPUT_FILE_PATH = 'statesData.json'
+const META_OUTPUT_FILE_PATH = 'metaData.json'
 
 init()
 
 async function init() {
   try {
-    const date = getETDate()
-    const todaysDateString = DateUtils.getApiStringFromDate(date)
+    const now = new Date()
     // Fetch all historical data
     const historicalData = await getData(HISTORIC_API_URL)
-    // Fetch the latest daily data
-    let todaysData = await getData(CURRENT_API_URL)
-    // The daily data does not contain a date property since its assumed its today
-    todaysData = addDateProperty(todaysData, todaysDateString)
     // Store data as a map, the key is the date string, value is the entry
     const dateMap = mapDataByDate(historicalData)
-    // Map todays data to the historical data
-    dateMap[todaysDateString] = todaysData
     const totalDays = Object.keys(dateMap).length
     // Save the data as JSON
     saveData(dateMap, OUTPUT_FILE_PATH)
     // Meta data
     saveData(
       {
-        updated: date,
+        updated: now.toString(),
         totalDays
       },
       META_OUTPUT_FILE_PATH
     )
-    console.log('Finished processing COVID data,', +totalDays + ' days of data')
+    console.log(
+      'Finished processing COVID data,',
+      +totalDays + ' days of data. date:',
+      now.toString()
+    )
   } catch (err) {
     console.error('There was an error generating the pandemic data. ', err)
+    process.exit(1)
   }
-}
-
-function getETDate() {
-  const localDate = new Date()
-  const hourOffset = -4 // UTC and ET have a 4 hour difference
-  const utcInMS = localDate.getTime() + localDate.getTimezoneOffset() * 60000
-  return new Date(utcInMS + 3600000 * hourOffset)
 }
 
 function mapDataByDate(data) {
@@ -59,13 +49,6 @@ function mapDataByDate(data) {
   }, {})
 }
 
-function addDateProperty(data, dateString) {
-  return data.map((item) => {
-    item.date = dateString
-    return item
-  })
-}
-
 async function getData(url) {
   try {
     const { data } = await axios.get(url)
@@ -75,9 +58,17 @@ async function getData(url) {
   }
 }
 
+function createDataDirectory() {
+  const dir = path.join(__dirname, DATA_DIRECTORY)
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir)
+  }
+}
+
 function saveData(data, filePath) {
   try {
-    const outPath = path.join(__dirname, filePath)
+    createDataDirectory()
+    const outPath = path.join(__dirname, DATA_DIRECTORY, filePath)
     const json = JSON.stringify(data)
     const result = fs.writeFileSync(outPath, json)
     return result
