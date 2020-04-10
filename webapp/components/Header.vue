@@ -138,7 +138,7 @@
             class="underline text-blue-700"
             target="_blank"
             >COVID Tracking Project</a
-          >
+          >. <br />Latest date pulled: {{ lastUpdated }} (ET)
         </p>
         <p>
           Map is powered by
@@ -188,6 +188,12 @@ export default class Header extends Vue {
     return this.dateRange.findIndex((date: Date) => {
       return this.$store.getters['states/getDate'] === date
     })
+  }
+
+  get lastUpdated() {
+    return this.$store.getters['states/getLastUpdated']
+      ? this.$store.getters['states/getLastUpdated'].toLocaleString()
+      : null
   }
 
   set timelineDateIndex(index: number) {

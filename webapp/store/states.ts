@@ -3,6 +3,7 @@ import { PandemicMetric, pandemicMetrics } from '~/models/PandemicMetric'
 import { IStateApiData } from '~/models/IStateApiData'
 import { GeoJson, Feature } from '~/models/GeoJson'
 import stateData from '~/static/data/statesData.json'
+import metaData from '~/static/data/metaData.json'
 const apiGeoJsonAdapter = require('../utils/stateGeoJsonAdapter')
 const DateUtil = require('../utils/DateUtility')
 const allApiData: IStateApiData = stateData
@@ -72,6 +73,7 @@ class StatesModule extends VuexModule {
   selectedState: string | null = null
   dateRange: Date[] = dateRange
   date: Date = latestDate
+  lastUpdate: Date = new Date(metaData.updated)
 
   @Mutation
   SET_FEATURES(features: Feature[]) {
@@ -120,6 +122,10 @@ class StatesModule extends VuexModule {
 
   get getDate() {
     return this.date
+  }
+
+  get getLastUpdated() {
+    return this.lastUpdate
   }
 
   get getDateRange() {
