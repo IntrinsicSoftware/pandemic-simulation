@@ -61,7 +61,7 @@ async function getData(url) {
 function createDataDirectory() {
   const dir = path.join(__dirname, DATA_DIRECTORY)
   if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
+    fs.mkdirSync(dir)
   }
 }
 
