@@ -33,6 +33,7 @@ async function init() {
     )
   } catch (err) {
     console.error('There was an error generating the pandemic data. ', err)
+    process.exit(1)
   }
 }
 
