@@ -128,7 +128,7 @@
             href="//www.intrinsic.ventures"
             class="underline text-blue-700"
             target="_blank"
-            >Intrinsic Ventures</a
+            >Intrinsic</a
           >. The project is open source on
           <a
             href="https://github.com/IntrinsicSoftware/pandemic-simulation"
