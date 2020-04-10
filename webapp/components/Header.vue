@@ -120,7 +120,7 @@
       v-if="showInfo"
       class="info absolute left-0 bg-black p-4 rounded rounded-t-none mt-0 border-t-2 z-20"
     >
-      <div class="mb-4">
+      <div class="mb-4 max-w-lg">
         <div class="text-3xl font-serif">COVID-19 Data</div>
         <p class="my-2">
           Built by
@@ -129,9 +129,21 @@
             class="underline text-blue-700"
             target="_blank"
             >Intrinsic Ventures</a
-          >
+          >. The project is open source on
+          <a
+            href="https://github.com/IntrinsicSoftware/pandemic-simulation"
+            target="_blank"
+            class="underline text-blue-700"
+            >github</a
+          >, feel free to contirbute or open an
+          <a
+            href="https://github.com/IntrinsicSoftware/pandemic-simulation/issues"
+            target="_blank"
+            class="underline text-blue-700"
+            >issue</a
+          >.
         </p>
-        <p class="my-2">
+        <p class="my-4">
           Data is pulled daily from the
           <a
             href="https://covidtracking.com/"
@@ -147,8 +159,8 @@
             class="underline text-blue-700"
             target="_blank"
             >Leaflet</a
-          >. Map tiles by Carto, under CC BY 3.0. <br />
-          Data by OpenStreetMap, under ODbL.
+          >. Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under
+          ODbL.
         </p>
       </div>
     </div>
