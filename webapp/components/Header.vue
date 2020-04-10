@@ -134,7 +134,7 @@
             href="https://github.com/IntrinsicSoftware/pandemic-simulation"
             target="_blank"
             class="underline text-blue-700"
-            >github</a
+            >GitHub</a
           >, feel free to contirbute or open an
           <a
             href="https://github.com/IntrinsicSoftware/pandemic-simulation/issues"
