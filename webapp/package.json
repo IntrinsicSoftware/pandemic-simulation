@@ -8,7 +8,7 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate",
+    "generate": "npm run generate:data && nuxt generate",
     "generate:data": "node ./build/getStaticData.js",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
