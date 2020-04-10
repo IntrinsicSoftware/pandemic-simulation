@@ -129,7 +129,7 @@
             class="underline text-blue-700"
             target="_blank"
             >Intrinsic</a
-          >. The project is open source on
+          >. We have open sourced the code for this project. Check it out on
           <a
             href="https://github.com/IntrinsicSoftware/pandemic-simulation"
             target="_blank"
