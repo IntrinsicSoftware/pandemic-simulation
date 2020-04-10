@@ -19,10 +19,12 @@
       <input
         v-model="timelineDateIndex"
         type="range"
+        step="1"
         min="0"
         :max="dateRange.length - 1"
         class="appearance-none w-full h-1 bg-gray-400 rounded outline-none slider-thumb"
         @input="timelineChangeHandler"
+        @change="timelineChangeHandler"
       />
       <div class="mx-4 cursor-pointer text-gray-500">
         <svg
@@ -102,10 +104,12 @@
         <input
           v-model="intervalSpeed"
           type="range"
+          step="1"
           min="50"
           max="2500"
           class="appearance-none w-full h-1 bg-gray-400 rounded outline-none slider-thumb"
           :style="{ direction: 'rtl' }"
+          @input="restartTimeline"
           @change="restartTimeline"
         />
       </div>
