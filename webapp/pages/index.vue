@@ -33,12 +33,4 @@ export default class HomePage extends Vue {}
 body {
   background: #222222;
 }
-.title {
-  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
-  font-size: 24px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 700;
-  line-height: 26.4px;
-}
 </style>
