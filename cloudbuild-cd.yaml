@@ -18,7 +18,7 @@ steps:
       id: 'webapp generate'
       args: ['run', 'generate']
       dir: 'webapp'
-      waitFor: ['webapp generate:data']
+      waitFor: ['webapp install']
   
     # Deploy static webapp
     - name: "gcr.io/$PROJECT_ID/firebase"
