@@ -6,6 +6,7 @@ const DateUtils = require('../utils/DateUtility')
 const HISTORIC_API_URL = 'https://covidtracking.com/api/v1/states/daily.json'
 const CURRENT_API_URL = 'https://covidtracking.com/api/v1/states/current.json'
 const OUTPUT_FILE_PATH = '../static/data/statesData.json'
+const META_OUTPUT_FILE_PATH = '../static/data/metaData.json'
 
 init()
 
@@ -23,12 +24,18 @@ async function init() {
     const dateMap = mapDataByDate(historicalData)
     // Map todays data to the historical data
     dateMap[todaysDateString] = todaysData
+    const totalDays = Object.keys(dateMap).length
     // Save the data as JSON
     saveData(dateMap, OUTPUT_FILE_PATH)
-    console.log(
-      'Finished processing COVID data,',
-      +Object.keys(dateMap).length + ' days of data'
+    // Meta data
+    saveData(
+      {
+        updated: date,
+        totalDays
+      },
+      META_OUTPUT_FILE_PATH
     )
+    console.log('Finished processing COVID data,', +totalDays + ' days of data')
   } catch (err) {
     console.error('There was an error generating the pandemic data. ', err)
   }

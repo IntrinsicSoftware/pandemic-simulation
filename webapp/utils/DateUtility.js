@@ -17,7 +17,7 @@ class DateUtil {
     const date = new Date()
     apiDateString = apiDateString.toString()
     const fullYear = apiDateString.substring(0, 4)
-    const month = apiDateString.substring(4, 6) - 1 // needs to be zero based
+    const month = Number(apiDateString.substring(4, 6)) - 1 // needs to be zero based
     const day = apiDateString.substring(6, 8)
     date.setMonth(month)
     date.setDate(day)

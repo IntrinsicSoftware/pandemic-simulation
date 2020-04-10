@@ -19,10 +19,12 @@
       <input
         v-model="timelineDateIndex"
         type="range"
+        step="1"
         min="0"
         :max="dateRange.length - 1"
         class="appearance-none w-full h-1 bg-gray-400 rounded outline-none slider-thumb"
         @input="timelineChangeHandler"
+        @change="timelineChangeHandler"
       />
       <div class="mx-4 cursor-pointer text-gray-500">
         <svg
@@ -102,10 +104,12 @@
         <input
           v-model="intervalSpeed"
           type="range"
+          step="1"
           min="50"
           max="2500"
           class="appearance-none w-full h-1 bg-gray-400 rounded outline-none slider-thumb"
           :style="{ direction: 'rtl' }"
+          @input="restartTimeline"
           @change="restartTimeline"
         />
       </div>
@@ -116,7 +120,7 @@
       v-if="showInfo"
       class="info absolute left-0 bg-black p-4 rounded rounded-t-none mt-0 border-t-2 z-20"
     >
-      <div class="mb-4">
+      <div class="mb-4 max-w-lg">
         <div class="text-3xl font-serif">COVID-19 Data</div>
         <p class="my-2">
           Built by
@@ -125,16 +129,28 @@
             class="underline text-blue-700"
             target="_blank"
             >Intrinsic</a
-          >
+          >. We have open sourced the code for this project. Check it out on
+          <a
+            href="https://github.com/IntrinsicSoftware/pandemic-simulation"
+            target="_blank"
+            class="underline text-blue-700"
+            >GitHub</a
+          >, feel free to contribute or open an
+          <a
+            href="https://github.com/IntrinsicSoftware/pandemic-simulation/issues"
+            target="_blank"
+            class="underline text-blue-700"
+            >issue</a
+          >.
         </p>
-        <p class="my-2">
+        <p class="my-4">
           Data is pulled daily from the
           <a
             href="https://covidtracking.com/"
             class="underline text-blue-700"
             target="_blank"
             >COVID Tracking Project</a
-          >
+          >. <br />Data current as of {{ lastUpdated }} (ET)
         </p>
         <p>
           Map is powered by
@@ -143,8 +159,8 @@
             class="underline text-blue-700"
             target="_blank"
             >Leaflet</a
-          >. Map tiles by Carto, under CC BY 3.0. <br />
-          Data by OpenStreetMap, under ODbL.
+          >. Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under
+          ODbL.
         </p>
       </div>
     </div>
@@ -167,91 +183,55 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { PandemicMetric, pandemicMetrics } from '../models/PandemicMetric'
 const DateUtil = require('../utils/DateUtility')
-const DensityPalette = require('../utils/DensityPalette')
-
-interface PandemicMetric {
-  value: string
-  label: string
-  palette: any
-}
-
-const metrics: PandemicMetric[] = [
-  { value: 'death', label: 'COVID-19 Deaths', palette: DensityPalette.RED },
-  {
-    value: 'positive',
-    label: 'COVID-19 Positive',
-    palette: DensityPalette.RED
-  },
-  {
-    value: 'negative',
-    label: 'COVID-19 Negative',
-    palette: DensityPalette.GREEN
-  },
-  {
-    value: 'hospitalized',
-    label: 'Hospitalized',
-    palette: DensityPalette.RED
-  },
-  {
-    value: 'totalTestResults',
-    label: 'COVID-19 Total Tests',
-    palette: DensityPalette.GREEN
-  }
-]
 
 @Component<Header>({})
 export default class Header extends Vue {
-  private timelineDateIndex: number = 0
   private playing: boolean = false
   private showOptions: boolean = false
   private showInfo: boolean = false
   private interval: any = null
   private intervalSpeed: number = 250
-  private metrics: PandemicMetric[] = metrics
-  private metric: PandemicMetric = metrics[0]
+  private metrics: PandemicMetric[] = pandemicMetrics
+  private metric: PandemicMetric = pandemicMetrics[0]
 
-  get dateRange() {
-    return this.$store.getters['states/dateRange'] || []
-  }
-
-  get selectedMetric() {
-    if (!this.$store.getters['states/selectedMetric']) {
-      return
-    }
-    const pandemicMetric = this.metrics.find((item: PandemicMetric) => {
-      return item.value === this.$store.getters['states/selectedMetric']
+  get timelineDateIndex() {
+    return this.dateRange.findIndex((date: Date) => {
+      return this.$store.getters['states/getDate'] === date
     })
-
-    if (pandemicMetric) {
-      return pandemicMetric
-    }
   }
 
-  get date() {
-    return this.$store.getters['states/date']
-      ? this.$store.getters['states/date'].toLocaleDateString()
+  get lastUpdated() {
+    return this.$store.getters['states/getLastUpdated']
+      ? this.$store.getters['states/getLastUpdated'].toLocaleString()
       : null
   }
 
-  mounted() {
-    this.timelineDateIndex = this.dateRange.length - 1
-    // TODO - see if we can fix this
-    // Fire an event to set the initial geoJson density
-    // kinda of a hack, the store should initialize with correct density
-    const date = this.dateRange[this.dateRange.length - 1]
-    if (date) {
-      this.$store.dispatch('states/setGeoJsonByDate', date)
-    }
+  set timelineDateIndex(index: number) {
+    // index
+  }
+
+  get dateRange() {
+    return this.$store.getters['states/getDateRange'] || []
+  }
+
+  get selectedMetric() {
+    return this.$store.getters['states/getSelectedMetric'] || {}
+  }
+
+  get date() {
+    return this.$store.getters['states/getDate']
+      ? this.$store.getters['states/getDate'].toLocaleDateString()
+      : null
   }
 
   private setMetric() {
-    this.$store.dispatch('states/setMetric', this.metric.value)
-    this.$store.dispatch('states/setDensityColorPalette', this.metric.palette)
+    this.$store.dispatch('states/setMetric', this.metric)
   }
 
-  private timelineChangeHandler() {
-    const date = this.dateRange[this.timelineDateIndex]
+  private timelineChangeHandler(e: any) {
+    const date = this.dateRange[e.target.value]
     if (date) {
       this.$store.dispatch('states/setGeoJsonByDate', date)
     }

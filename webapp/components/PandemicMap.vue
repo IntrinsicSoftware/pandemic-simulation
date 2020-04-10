@@ -1,11 +1,6 @@
 <template>
   <section class="text-white">
-    <l-map
-      ref="map"
-      :zoom="5"
-      :center="[38.266219, -99.026642]"
-      class="w-full h-full"
-    >
+    <l-map ref="map" :center="[38, -99]" class="w-full h-full">
       <!-- Map layer -->
       <l-tile-layer
         url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
@@ -18,7 +13,7 @@
             {{ selectedState.properties.name }}
           </span>
           <span class="text-base ">
-            {{ selectedState.properties[selectedMetric] | numeric }}
+            {{ selectedState.properties[selectedMetric.value] | numeric }}
           </span></l-tooltip
         >
       </l-marker>
@@ -54,25 +49,26 @@ export default class PandemicMap extends Vue {
   private map: any = {}
   private activeMarkerLatLng: number[] = [0, 0]
   private activeMarker: any = {}
+  private mouseOverHighlightColor: string = '#ffff00'
   private options: any = {
     onEachFeature: this.onEachFeatureFunction
   }
 
-  get getColor() {
-    return this.$store.getters['states/densityColorPalette']
+  get colorPalette() {
+    return this.$store.getters['states/getSelectedMetric'].palette
   }
 
   get selectedState() {
-    if (!this.$store.getters['states/selectedState']) {
+    if (!this.$store.getters['states/getSelectedState']) {
       return {
         properties: { name: '' }
       }
     }
-    return this.$store.getters['states/selectedState']
+    return this.$store.getters['states/getSelectedState']
   }
 
   get selectedMetric() {
-    return this.$store.getters['states/selectedMetric']
+    return this.$store.getters['states/getSelectedMetric']
   }
 
   mounted() {
@@ -82,17 +78,16 @@ export default class PandemicMap extends Vue {
         (this.$refs['active-marker'] &&
           (this.$refs['active-marker'] as any).mapObject) ||
         null
-
       this.map.fitBounds([
-        [22.268764, -125.595703],
-        [47.989922, -64.775391]
+        [23, -131],
+        [52, -61]
       ])
     })
   }
 
   private onEachFeatureFunction(feature: Feature, layer: any) {
     layer.setStyle({
-      color: this.getColor(feature.properties.density)
+      color: this.colorPalette.getColor(feature.properties.density)
     })
     layer.on({
       click: () => {
@@ -116,13 +111,13 @@ export default class PandemicMap extends Vue {
   private entityMouseoverHandler(layer: any) {
     this.activeMarker.openTooltip()
     layer.setStyle({
-      color: '#ffff00'
+      color: this.mouseOverHighlightColor
     })
   }
 
   private entityMouseoutHandler(layer: any, feature: Feature) {
     layer.setStyle({
-      color: this.getColor(feature.properties.density)
+      color: this.colorPalette.getColor(feature.properties.density)
     })
   }
 }

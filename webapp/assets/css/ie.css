@@ -1,0 +1,28 @@
+/* IE 10+ specific CSS hacks */
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+  input[type="range"] {
+    height: 4rem;
+    background: none;
+  }
+
+  input[type="range"]::-ms-thumb {
+    @apply bg-gray-900;
+  }
+
+  input[type="range"]::-ms-track {
+    color: transparent;
+  }
+
+  input[type="range"]::-ms-tooltip {
+    @apply hidden;
+  }
+
+  input[type="range"]::-ms-fill-lower {
+    @apply bg-gray-500;
+  }
+
+  input[type="range"]::-ms-fill-upper {
+    @apply bg-gray-500;
+  }
+}
