@@ -3,8 +3,9 @@ const fs = require('fs')
 const path = require('path')
 const axios = require('axios')
 const HISTORIC_API_URL = 'https://covidtracking.com/api/v1/states/daily.json'
-const OUTPUT_FILE_PATH = '../static/data/statesData.json'
-const META_OUTPUT_FILE_PATH = '../static/data/metaData.json'
+const DATA_DIRECTORY = '../static/data/'
+const OUTPUT_FILE_PATH = 'statesData.json'
+const META_OUTPUT_FILE_PATH = 'metaData.json'
 
 init()
 
@@ -57,9 +58,17 @@ async function getData(url) {
   }
 }
 
+function createDataDirectory() {
+  const dir = path.join(__dirname, DATA_DIRECTORY)
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+}
+
 function saveData(data, filePath) {
   try {
-    const outPath = path.join(__dirname, filePath)
+    createDataDirectory()
+    const outPath = path.join(__dirname, DATA_DIRECTORY, filePath)
     const json = JSON.stringify(data)
     const result = fs.writeFileSync(outPath, json)
     return result
