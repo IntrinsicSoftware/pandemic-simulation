@@ -1,14 +1,14 @@
 # pandemic-simulation
 
-This is a nuxt.js statically generated website. This is a flavor of a JAM stack in that it reaches out and gets the pandemic data at build time. Any webserver will work with this application as long as it serves from the dist directory and has the correct webserver rewrite rules for a SPA. 
+This is a nuxt.js statically generated website. This is a flavor of a JAM stack in that it reaches out and gets the pandemic data at build time. Any webserver will work with this application as long as it serves from the dist directory and has the correct webserver rewrite rules for a SPA.
 
 ## Webapp
 
-To see how to build the webapp for local development, see the readme in the webapp directory. 
+To see how to build the webapp for local development, see the readme in the webapp directory.
 
 ## Hosting
 
-We are using firebase hosting to server the files in the webapp/dist directory. 
+We are using firebase hosting to serve the files in the webapp/dist directory.
 
 ## Google Cloud build
 
