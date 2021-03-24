@@ -3,7 +3,7 @@
     class="flex flex-col items-center justify-center h-16 text-xs text-center text-gray-400 border-t-2 footer"
   >
     <a class="pr-1" href="//www.intrinsic.ventures" target="_blank"
-      >- INTRINSIC -</a
+      >⸺ INTRINSIC ⸺</a
     >
     <div>&copy; 2021 Intrinsic All Rights Reserved</div>
   </footer>
