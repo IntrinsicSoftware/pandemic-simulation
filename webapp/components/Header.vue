@@ -1,13 +1,13 @@
 <template>
-  <section class="border-b-2 px-4 text-white">
+  <section class="px-4 text-white border-b-2">
     <div class="flex items-center h-16">
       <div
-        class="mr-4 cursor-pointer text-gray-500"
+        class="mr-4 text-gray-500 cursor-pointer"
         :class="{ 'text-blue-500': showInfo }"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="fill-current h-6 w-6"
+          class="w-6 h-6 fill-current"
           viewBox="0 0 20 20"
           @click="showInfo = !showInfo"
         >
@@ -22,15 +22,15 @@
         step="1"
         min="0"
         :max="dateRange.length - 1"
-        class="appearance-none w-full h-1 bg-gray-400 rounded outline-none slider-thumb"
+        class="w-full h-1 bg-gray-400 rounded outline-none appearance-none slider-thumb"
         @input="timelineChangeHandler"
         @change="timelineChangeHandler"
       />
-      <div class="mx-4 cursor-pointer text-gray-500">
+      <div class="mx-4 text-gray-500 cursor-pointer">
         <svg
           v-if="!playing"
           xmlns="http://www.w3.org/2000/svg"
-          class="fill-current h-8 w-8"
+          class="w-8 h-8 fill-current"
           viewBox="0 0 20 20"
           @click="playTimeline"
         >
@@ -39,7 +39,7 @@
         <svg
           v-else
           xmlns="http://www.w3.org/2000/svg"
-          class="fill-current h-8 w-8"
+          class="w-8 h-8 fill-current"
           viewBox="0 0 20 20"
           @click="stopTimeline"
         >
@@ -47,13 +47,13 @@
         </svg>
       </div>
       <div
-        class="cursor-pointer relative text-gray-500"
+        class="relative text-gray-500 cursor-pointer"
         :class="{ 'text-blue-500': showOptions }"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          class="fill-current h-8 w-8"
+          class="w-8 h-8 fill-current"
           @click="showOptions = !showOptions"
         >
           <path
@@ -66,14 +66,14 @@
     <!-- OPTIONS -->
     <div
       v-if="showOptions"
-      class="options absolute right-0 bg-black p-4 rounded rounded-t-none mt-0 border-t-2 z-20"
+      class="absolute right-0 z-20 p-4 mt-0 bg-black border-t-2 rounded rounded-t-none options"
     >
       <div class="mb-4">
         <div class="text-xl">Metric</div>
         <div class="relative">
           <select
             v-model="metric"
-            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
             @change="setMetric"
           >
             <option
@@ -81,14 +81,15 @@
               :key="index"
               :name="option"
               :value="option"
-              >{{ option.label }}</option
             >
+              {{ option.label }}
+            </option>
           </select>
           <div
-            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+            class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none"
           >
             <svg
-              class="fill-current h-4 w-4"
+              class="w-4 h-4 fill-current"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -107,7 +108,7 @@
           step="1"
           min="50"
           max="2500"
-          class="appearance-none w-full h-1 bg-gray-400 rounded outline-none slider-thumb"
+          class="w-full h-1 bg-gray-400 rounded outline-none appearance-none slider-thumb"
           :style="{ direction: 'rtl' }"
           @input="restartTimeline"
           @change="restartTimeline"
@@ -118,28 +119,28 @@
     <!-- Info -->
     <div
       v-if="showInfo"
-      class="info absolute left-0 bg-black p-4 rounded rounded-t-none mt-0 border-t-2 z-20"
+      class="absolute left-0 z-20 p-4 mt-0 bg-black border-t-2 rounded rounded-t-none info"
     >
-      <div class="mb-4 max-w-lg">
-        <div class="text-3xl font-serif">COVID-19 Data</div>
+      <div class="max-w-lg mb-4">
+        <div class="font-serif text-3xl">COVID-19 Data</div>
         <p class="my-2">
           Built by
           <a
             href="//www.intrinsic.ventures"
-            class="underline text-blue-700"
+            class="text-blue-700 underline"
             target="_blank"
             >Intrinsic</a
           >. We have open sourced the code for this project. Check it out on
           <a
             href="https://github.com/IntrinsicSoftware/pandemic-simulation"
             target="_blank"
-            class="underline text-blue-700"
+            class="text-blue-700 underline"
             >GitHub</a
           >, feel free to contribute or open an
           <a
             href="https://github.com/IntrinsicSoftware/pandemic-simulation/issues"
             target="_blank"
-            class="underline text-blue-700"
+            class="text-blue-700 underline"
             >issue</a
           >.
         </p>
@@ -147,7 +148,7 @@
           Data is pulled daily from the
           <a
             href="https://covidtracking.com/"
-            class="underline text-blue-700"
+            class="text-blue-700 underline"
             target="_blank"
             >COVID Tracking Project</a
           >. <br />Data current as of {{ lastUpdated }}
@@ -156,7 +157,7 @@
           Map is powered by
           <a
             href="https://leafletjs.com/"
-            class="underline text-blue-700"
+            class="text-blue-700 underline"
             target="_blank"
             >Leaflet</a
           >. Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under
@@ -166,14 +167,14 @@
     </div>
 
     <!-- Date and metric labels -->
-    <div class="absolute bottom-0 left-0 right-0 mx-4 z-10">
+    <div class="absolute bottom-0 left-0 right-0 z-10 mx-4">
       <div
-        class="absolute left-0 text-2xl mt-2 md:mt-0 md:text-4xl lg:text-5xl xl:text-6xl font-serif"
+        class="absolute left-0 mt-2 font-serif text-2xl md:mt-0 md:text-4xl lg:text-5xl xl:text-6xl"
       >
         {{ selectedMetric.label }}
       </div>
       <div
-        class="absolute right-0 text-2xl mt-2 md:mt-0 md:text-4xl lg:text-5xl xl:text-6xl"
+        class="absolute right-0 mt-2 text-2xl md:mt-0 md:text-4xl lg:text-5xl xl:text-6xl"
       >
         {{ date }}
       </div>
