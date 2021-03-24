@@ -26,7 +26,7 @@
     "@nuxtjs/google-analytics": "^2.2.3",
     "@nuxtjs/tailwindcss": "^1.0.0",
     "@types/leaflet": "^1.5.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.10.0",
