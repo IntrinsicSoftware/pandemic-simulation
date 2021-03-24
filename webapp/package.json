@@ -8,7 +8,7 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "NODE_OPTIONS=\"--max-old-space-size=1024\" nuxt generate",
+    "generate": "nuxt generate",
     "generate:data": "node ./build/getStaticData.js",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
