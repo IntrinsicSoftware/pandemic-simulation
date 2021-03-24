@@ -32,5 +32,3 @@ steps:
       args: ["deploy", "--only", "hosting", "--force", "--project=$PROJECT_ID", "--token", "$_FIREBASE_TOKEN"]
       dir: 'src/services/admin'
       id: "firebase deploy"
-options:
-  machineType: 'E2_HIGHCPU_32'

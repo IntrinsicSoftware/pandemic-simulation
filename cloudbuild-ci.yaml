@@ -26,5 +26,3 @@ steps:
       args: ['run', 'generate']
       dir: 'webapp'
       waitFor: ['webapp generate:data']
-options:
-    machineType: 'E2_HIGHCPU_32'
