@@ -12,7 +12,7 @@
           ><span class="text-base font-bold">
             {{ selectedState.properties.name }}
           </span>
-          <span class="text-base ">
+          <span class="text-base">
             {{ selectedState.properties[selectedMetric.value] | numeric }}
           </span></l-tooltip
         >
@@ -32,7 +32,7 @@ import { GeoJson, Feature } from '../models/GeoJson'
     LMap,
     LMarker,
     LTooltip,
-    LTileLayer
+    LTileLayer,
   },
   filters: {
     numeric(num: number) {
@@ -40,8 +40,8 @@ import { GeoJson, Feature } from '../models/GeoJson'
         return num.toLocaleString()
       }
       return 0
-    }
-  }
+    },
+  },
 })
 export default class PandemicMap extends Vue {
   @Prop() private geojson!: GeoJson
@@ -51,7 +51,7 @@ export default class PandemicMap extends Vue {
   private activeMarker: any = {}
   private mouseOverHighlightColor: string = '#ffff00'
   private options: any = {
-    onEachFeature: this.onEachFeatureFunction
+    onEachFeature: this.onEachFeatureFunction,
   }
 
   get colorPalette() {
@@ -61,7 +61,7 @@ export default class PandemicMap extends Vue {
   get selectedState() {
     if (!this.$store.getters['states/getSelectedState']) {
       return {
-        properties: { name: '' }
+        properties: { name: '' },
       }
     }
     return this.$store.getters['states/getSelectedState']
@@ -80,14 +80,14 @@ export default class PandemicMap extends Vue {
         null
       this.map.fitBounds([
         [23, -131],
-        [52, -61]
+        [52, -61],
       ])
     })
   }
 
   private onEachFeatureFunction(feature: Feature, layer: any) {
     layer.setStyle({
-      color: this.colorPalette.getColor(feature.properties.density)
+      color: this.colorPalette.getColor(feature.properties.density),
     })
     layer.on({
       click: () => {
@@ -98,7 +98,7 @@ export default class PandemicMap extends Vue {
       },
       mouseout: () => {
         return this.entityMouseoutHandler(layer, feature)
-      }
+      },
     })
   }
 
@@ -111,13 +111,13 @@ export default class PandemicMap extends Vue {
   private entityMouseoverHandler(layer: any) {
     this.activeMarker.openTooltip()
     layer.setStyle({
-      color: this.mouseOverHighlightColor
+      color: this.mouseOverHighlightColor,
     })
   }
 
   private entityMouseoutHandler(layer: any, feature: Feature) {
     layer.setStyle({
-      color: this.colorPalette.getColor(feature.properties.density)
+      color: this.colorPalette.getColor(feature.properties.density),
     })
   }
 }

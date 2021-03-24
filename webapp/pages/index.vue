@@ -21,8 +21,8 @@ import HeaderComponent from '~/components/Header.vue'
   components: {
     HeaderComponent,
     FooterComponent,
-    PandemicMap
-  }
+    PandemicMap,
+  },
 })
 export default class HomePage extends Vue {}
 </script>

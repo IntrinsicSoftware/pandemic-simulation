@@ -23,7 +23,7 @@ async function init() {
     saveData(
       {
         updated: now.toString(),
-        totalDays
+        totalDays,
       },
       META_OUTPUT_FILE_PATH
     )

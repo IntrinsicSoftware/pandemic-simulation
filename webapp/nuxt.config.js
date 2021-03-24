@@ -6,64 +6,64 @@ export default {
       { charset: 'utf-8' },
       {
         name: 'apple-mobile-web-app-capable',
-        content: 'yes'
+        content: 'yes',
       },
       {
         name: 'apple-mobile-web-app-status-bar-style',
-        content: 'black'
+        content: 'black',
       },
       {
         name: 'apple-mobile-web-app-title',
-        content: 'Pandemic Simulation'
+        content: 'Pandemic Simulation',
       },
       {
         name: 'msapplication-TileImage',
-        content: 'ms-icon-144x144.png'
+        content: 'ms-icon-144x144.png',
       },
       { name: 'msapplication-TileColor', content: '#000000' },
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
+        content: process.env.npm_package_description || '',
       },
       {
         name: 'viewport',
-        content: 'width=device-width,initial-scale=1.0'
-      }
+        content: 'width=device-width,initial-scale=1.0',
+      },
     ],
     link: [
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico'
+        href: '/favicon.ico',
       },
       {
         rel: 'icon',
         type: 'image/png',
         sizes: '16x16',
-        href: 'favicon-16x16.png'
+        href: 'favicon-16x16.png',
       },
       {
         rel: 'icon',
         type: 'image/png',
         sizes: '32x32',
-        href: 'favicon-32x32.png'
+        href: 'favicon-32x32.png',
       },
       {
         rel: 'apple-touch-icon',
         type: 'image/x-icon',
-        href: 'apple-icon-152x152.png'
+        href: 'apple-icon-152x152.png',
       },
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico'
+        href: '/favicon.ico',
       },
       {
         rel: 'stylesheet',
-        href: 'https://unpkg.com/leaflet@1.6.0/dist/leaflet.css'
-      }
-    ]
+        href: 'https://unpkg.com/leaflet@1.6.0/dist/leaflet.css',
+      },
+    ],
   },
   /*
    ** Customize the progress-bar color
@@ -87,16 +87,16 @@ export default {
     [
       '@nuxtjs/google-analytics',
       {
-        id: 'UA-69636997-11'
-      }
-    ]
+        id: 'UA-69636997-11',
+      },
+    ],
   ],
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
   ],
   /*
    ** Axios module configuration
@@ -110,5 +110,5 @@ export default {
     /*
      ** You can extend webpack config here
      */
-  }
+  },
 }
